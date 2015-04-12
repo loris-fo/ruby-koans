@@ -19,10 +19,18 @@ class Proxy
     @messages = []
   end
 
+  def called?(msg)
+    @messages.include?(msg)
+  end
+
   def number_of_times_called(msg)
     @messages.count(msg)
   end
 
+  def method_missing(method_name, *args, &block)
+    @messages << method_name
+    @object.send(method_name, *args, &block)
+  end
 
 end
 
